@@ -46,9 +46,18 @@ class ControllerBase
   # pass the rendered html to render_content
   def render(template_name)
     # find controller and template names to construct a path
+    path = File.dirname(__FILE__)
     # path = 'views/#{controller_name}/#{template_name}.html.erb'
-    f = File.read(template_name)
-    ERB.new('<%= template %>')
+    new_template_name = File.join(
+      path, 
+      '..', 
+      'views', 
+      self.class.name.underscore,
+      "#{template_name}.html.erb"
+    )
+    f = File.read(new_template_name)
+
+    render_content(ERB.new(f).result(binding), 'text/html')
   end
 
   # method exposing a `Session` object
