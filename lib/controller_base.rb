@@ -47,15 +47,16 @@ class ControllerBase
   def render(template_name)
     # find controller and template names to construct a path
     path = File.dirname(__FILE__)
-    # path = 'views/#{controller_name}/#{template_name}.html.erb'
+
+    # new_template_name = 'views/#{controller_name}/#{template_name}.html.erb'
     new_template_name = File.join(
-      path, 
-      '..', 
-      'views', 
-      self.class.name.underscore,
-      "#{template_name}.html.erb"
+      path,                       # current path
+      '..',                       # go back one level
+      'views',                    # views
+      self.class.name.underscore, # convert class name to my_controller
+      "#{template_name}.html.erb" # show.html.erb
     )
-    f = File.read(new_template_name)
+    f = File.read(new_template_name) # must be in the erb tag format
 
     render_content(ERB.new(f).result(binding), 'text/html')
   end
@@ -64,7 +65,7 @@ class ControllerBase
   def session
   end
 
-  # use this with the router to call action_name (:index, :show, :create...)
+  # use this with the router to call action_name (:index, :shob w, :create...)
   def invoke_action(name)
   end
 end
